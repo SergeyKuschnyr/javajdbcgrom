@@ -56,22 +56,10 @@ public class JDBCExample {
         method("DELETE FROM PRODUCT WHERE NAME = 'toy'");
     }
 
-    public static void stringOfTable(ResultSet resultSet) throws SQLException {
-        for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
-            System.out.print(resultSet.getString(i) + "  ");
-        }
-    }
-
     public static void method(String string) {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement statement = connection.createStatement()) {
             statement.execute(string);
-            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT")) {
-                while (resultSet.next()) {
-                    stringOfTable(resultSet);
-                    System.out.println();
-                }
-            }
         } catch (SQLException e) {
             System.err.println("Something went wrong");
             e.printStackTrace();

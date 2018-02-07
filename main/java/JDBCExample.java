@@ -74,7 +74,7 @@ public class JDBCExample {
 //statement.execute("INSERT INTO PRODUCT VALUES (10, 'toy10', 'for children00000', 110)");
 //statement.execute("UPDATE PRODUCT SET NAME = 'toy1' WHERE ID = 1");
 //statement.execute("CREATE TABLE PRODUCT (ID NUMBER NOT NULL, CONSTRAINT PRODUCT " +
-//"PRIMARY KEY (ID), NAME VARCHAR (20) NOT NULL, DESCRIPTION CLOB, PRICE NUMBER NOT NULL)");
+//"PRIMARY KEY (ID), NAME VARCHAR (20) NOT NULL, DESCRIPTION BLOB, PRICE NUMBER NOT NULL)");
 
 //try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
 //        Statement statement = connection.createStatement()) {

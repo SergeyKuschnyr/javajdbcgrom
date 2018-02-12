@@ -36,7 +36,7 @@ public class JDBCCreateTable {
     public static void changeDescription() throws Exception {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT WHERE NVL(length(DESCRIPTION),0) > 15")) {
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT WHERE NVL(length(DESCRIPTION),0) > 100")) {
                 if (resultSet.first()) {
                     resultSet.beforeFirst();
                     while (resultSet.next()) {
@@ -58,7 +58,6 @@ public class JDBCCreateTable {
         if (strings.length > 1) {
             strings[strings.length - 1] = null;
         }
-        //throw new Exception("Description has one sentence only");
     }
 }
 

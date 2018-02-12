@@ -18,7 +18,7 @@ public class JDBCCreateTable {
         //increasePrice();
         try {
             changeDescription();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -33,11 +33,20 @@ public class JDBCCreateTable {
         }
     }
 
-    public static void changeDescription() throws Exception{
+    public static void changeDescription() throws Exception {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT WHERE NVL(length(DESCRIPTION),0) > 100")) {
-                descriptionUpdate(resultSet, statement);
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT WHERE NVL(length(DESCRIPTION),0) > 15")) {
+                if (resultSet.first()) {
+                    resultSet.beforeFirst();
+                    while (resultSet.next()) {
+                        String s = resultSet.getString(3);
+                        String[] strings = s.split(".");
+                        deleteLastSentence(strings);
+                        resultSet.updateClob(3, new StringReader(Arrays.deepToString(strings)));
+                    }
+                }
+                throw new Exception("Your SQL query nothing return");
             }
         } catch (SQLException e) {
             System.err.println("Something went wrong");
@@ -45,24 +54,11 @@ public class JDBCCreateTable {
         }
     }
 
-    public static void descriptionUpdate(ResultSet resultSet, Statement statement) throws Exception{
-        if (resultSet.first()) {
-            resultSet.beforeFirst();
-            while (resultSet.next()) {
-                String s = resultSet.getString(3);
-                String[] strings = s.split(".");
-                deleteLastSentence(strings, resultSet);
-            }
-        }
-        throw new Exception("Your SQL query nothing return");
-    }
-
-    public static void deleteLastSentence(String[] strings, ResultSet resultSet) throws Exception{
+    public static void deleteLastSentence(String[] strings) throws Exception {
         if (strings.length > 1) {
             strings[strings.length - 1] = null;
-            resultSet.updateClob(3, new StringReader(Arrays.deepToString(strings)));
         }
-        throw new Exception("Description has one sentence only");
+        //throw new Exception("Description has one sentence only");
     }
 }
 

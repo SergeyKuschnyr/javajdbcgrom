@@ -1,7 +1,6 @@
 
 
 
-import java.io.StringReader;
 import java.sql.*;
 import java.util.Arrays;
 
@@ -9,6 +8,7 @@ import java.util.Arrays;
  * Created by Kushn_000 on 01.02.2018.
  */
 public class JDBCCreateTable {
+    private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String DB_URL = "jdbc:oracle:thin:@dbofsergey.cbl26hgz4yxf.us-east-1.rds.amazonaws.com:1521:ORCL";
     private static final String USER = "main";
     private static final String PASSWORD = "evolution";
@@ -43,7 +43,12 @@ public class JDBCCreateTable {
                         String s = resultSet.getString(3);
                         String[] strings = s.split(".");
                         deleteLastSentence(strings);
-                        resultSet.updateClob(3, new StringReader(Arrays.deepToString(strings)));
+                        int id = resultSet.getInt(1);
+                        String str = Arrays.deepToString(strings);
+                        statement.execute("UPDATE PRODUCT SET DESCRIPTION = 'str' WHERE ID = id");
+                        //statement.executeQuery("UPDATE PRODUCT SET DESCRIPTION = 'str' WHERE ID = id");
+
+                        //resultSet.updateClob(3, new StringReader(Arrays.deepToString(strings)));
                     }
                 }
                 throw new Exception("Your SQL query nothing return");
@@ -54,13 +59,15 @@ public class JDBCCreateTable {
         }
     }
 
-    public static void deleteLastSentence(String[] strings) throws Exception {
+    public static void deleteLastSentence(String[] strings) {
         if (strings.length > 1) {
             strings[strings.length - 1] = null;
         }
     }
 }
 
+
+//ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE
 
 
 

@@ -8,7 +8,6 @@ import java.util.Arrays;
  * Created by Kushn_000 on 01.02.2018.
  */
 public class JDBCCreateTable {
-    private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String DB_URL = "jdbc:oracle:thin:@dbofsergey.cbl26hgz4yxf.us-east-1.rds.amazonaws.com:1521:ORCL";
     private static final String USER = "main";
     private static final String PASSWORD = "evolution";

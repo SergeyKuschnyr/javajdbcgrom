@@ -66,7 +66,7 @@ public class ProductDAO {
         return null;
     }
 
-    public Product delete(long id) {
+    public void delete(long id) {
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM PRODUCT WHERE ID = ?")) {
@@ -77,7 +77,6 @@ public class ProductDAO {
             System.err.println("Something went wrong");
             e.printStackTrace();
         }
-        return null;
     }
 
     private Connection getConnection() throws SQLException {

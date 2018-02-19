@@ -1,6 +1,7 @@
+package lessons1and2;
 
 
-
+import java.io.StringReader;
 import java.sql.*;
 import java.util.Arrays;
 
@@ -35,20 +36,21 @@ public class JDBCCreateTable {
     public static void changeDescription() throws Exception {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT WHERE NVL(length(DESCRIPTION),0) > 100")) {
-                if (resultSet.first()) {
-                    resultSet.beforeFirst();
-                    while (resultSet.next()) {
-                        String s = resultSet.getString(3);
-                        String[] strings = s.split(".");
-                        deleteLastSentence(strings);
-                        int id = resultSet.getInt(1);
-                        String str = Arrays.deepToString(strings);
-                        statement.execute("UPDATE PRODUCT SET DESCRIPTION = 'str' WHERE ID = id");
-                        //statement.executeQuery("UPDATE PRODUCT SET DESCRIPTION = 'str' WHERE ID = id");
-
-                        //resultSet.updateClob(3, new StringReader(Arrays.deepToString(strings)));
-                    }
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT WHERE NVL(length(DESCRIPTION),0) > 15")) {
+                while (resultSet.next()) {
+                    System.out.println("iteration");
+                    String s = resultSet.getString(3);
+                    System.out.println(s);
+                    String[] strings = s.split("\\.");
+                    System.out.println(strings.length);
+                    int i = resultSet.getInt(1);
+                    String[] str = deleteLastSentence(strings);
+                    if (str != null) {
+                        String strg = String.join(".", str);
+                        //resultSet.updateClob(3, new StringReader(strg));
+                        statement.executeUpdate("UPDATE PRODUCT SET DESCRIPTION = 'strg' WHERE ID = i");
+                    } else
+                        throw new Exception("Description has one sentence only");
                 }
                 throw new Exception("Your SQL query nothing return");
             }
@@ -58,10 +60,15 @@ public class JDBCCreateTable {
         }
     }
 
-    public static void deleteLastSentence(String[] strings) {
+    public static String[] deleteLastSentence(String[] strings) {
         if (strings.length > 1) {
-            strings[strings.length - 1] = null;
+            String[] strings1 = new String[strings.length - 1];
+            for (int i = 0; i < strings1.length; i++) {
+                strings1[i] = strings[i];
+            }
+            return strings1;
         }
+        return null;
     }
 }
 

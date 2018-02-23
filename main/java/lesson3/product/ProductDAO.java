@@ -1,6 +1,5 @@
-package lesson3;
+package lesson3.product;
 
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +78,7 @@ public class ProductDAO {
         }
     }
 
-    private Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, USER, PASSWORD);
     }
 }

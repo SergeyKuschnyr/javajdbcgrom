@@ -1,4 +1,4 @@
-package lesson3;
+package lesson3.product;
 
 /**
  * Created by Kushn_000 on 18.02.2018.

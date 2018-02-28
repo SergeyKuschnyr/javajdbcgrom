@@ -3,7 +3,7 @@
 
 package lesson3.findProduct;
 
-//import lesson3.product.Product;
+import lesson3.product.Product;
 
 import java.sql.*;
 import java.util.ArrayList;

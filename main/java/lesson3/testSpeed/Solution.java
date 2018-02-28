@@ -5,4 +5,5 @@ package lesson3.testSpeed;
  */
 public class Solution {
 
+
 }

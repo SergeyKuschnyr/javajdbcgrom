@@ -1,7 +1,6 @@
 
 
 
-
 package lesson3.findProduct;
 
 import lesson3.product.Product;
@@ -42,7 +41,9 @@ public class Solution {
     }
 
     public Map findProductsByName(String word) throws Exception {
-        stringValidate(word);
+        if (stringValidate(word)){
+            throw new Exception("String " + word + "is wrong");
+        }
         Map<String, Product> productMap = new HashMap<>();
         for (long l : findAndMappingId(readingAndMappingDB(), word)) {
             findAndMappingProduct(l, productMap);
@@ -50,7 +51,7 @@ public class Solution {
         return productMap;
     }
 
-    public Map<String, Product> findProductWithEmptyDescription() {
+    public Map findProductWithEmptyDescription() {
         Map<String, Product> productMap = new HashMap<>();
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
@@ -67,20 +68,21 @@ public class Solution {
         return productMap;
     }
 
-    private void stringValidate(String word) {
-        try {
-            if (word.contains(" ")) {
-                throw new Exception("String " + word + " contained more than one word");
-            }
-            if (word.contains("\\")) {
-                throw new Exception("String " + word + " contained special symbol");
-            }
-            if (word.length() < 3) {
-                throw new Exception("The length of string " + word + " is less than 3 symbol");
-            }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+    private boolean stringValidate(String word) {
+        String[] strings = word.split(" ");
+        if (strings.length > 1){
+            return false;
         }
+        char[] chars = word.toCharArray();
+        if (chars.length < 4){
+            return false;
+        }
+        for (char c : chars) {
+            if (!Character.isLetter(c)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Map<String, Product> readingAndMappingDB() {

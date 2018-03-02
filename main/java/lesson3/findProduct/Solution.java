@@ -8,6 +8,7 @@ import lesson3.product.Product;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,15 +41,15 @@ public class Solution {
         return productMap;
     }
 
-    public Map findProductsByName(String word) throws Exception {
+    public List<Product> findProductsByName(String word) throws Exception {
         if (stringValidate(word)){
             throw new Exception("String " + word + "is wrong");
         }
-        Map<String, Product> productMap = new HashMap<>();
+        List<Product> productList = new ArrayList<>();
         for (long l : findAndMappingId(readingAndMappingDB(), word)) {
-            findAndMappingProduct(l, productMap);
+            findAndMappingProduct(l, productList);
         }
-        return productMap;
+        return productList;
     }
 
     public Map findProductWithEmptyDescription() {
@@ -112,7 +113,7 @@ public class Solution {
         return idAL;
     }
 
-    private void findAndMappingProduct(long l, Map<String, Product> productMap) {
+    private void findAndMappingProduct(long l, List<Product> productList) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT WHERE  " +
                      "ID = ?")) {
@@ -121,7 +122,7 @@ public class Solution {
             while (resultSet.next()) {
                 Product product = new Product(resultSet.getLong(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4));
-                productMap.put(resultSet.getString(2), product);
+                productList.add(product);
             }
         } catch (SQLException e) {
             System.err.println("Something went wrong");

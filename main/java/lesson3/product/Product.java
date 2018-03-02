@@ -5,9 +5,9 @@ package lesson3.product;
  */
 public class Product {
     private long id;
-    String name;
-    String description;
-    int price;
+    private String name;
+    private String description;
+    private int price;
 
     public Product(long id, String name, String description, int price) {
         this.id = id;

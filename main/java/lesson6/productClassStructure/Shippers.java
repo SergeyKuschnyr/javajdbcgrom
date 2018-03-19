@@ -1,4 +1,4 @@
-package lesson6;
+package lesson6.productClassStructure;
 
 /**
  * Created by Kushn_000 on 18.03.2018.

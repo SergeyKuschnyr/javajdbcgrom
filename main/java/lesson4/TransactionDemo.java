@@ -3,7 +3,7 @@
 
 package lesson4;
 
-import lesson3.product.Product;
+//import lesson3.product.Product;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

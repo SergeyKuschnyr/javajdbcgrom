@@ -12,17 +12,17 @@ public class FileDAO {
     private static final String PASSWORD = "evolution";
 
     public void save(File file) {
-//        try (Connection connection = getConnection();
-//             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO FILE_TABLE VALUES (?, ?, ?, ?)")) {
-//            preparedStatement.setLong(1, file.getId());
-//            preparedStatement.setString(2, file.getName());
-//            preparedStatement.setString(3, file.getFormat());
-//            preparedStatement.setLong(4, file.getSize());
-//            int res = preparedStatement.executeUpdate();
-//        } catch (SQLException e) {
-//            System.err.println("Something went wrong");
-//            e.printStackTrace();
-//        }
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO FILE_TABLE VALUES (?, ?, ?, ?)")) {
+            preparedStatement.setLong(1, file.getId());
+            preparedStatement.setString(2, file.getName());
+            preparedStatement.setString(3, file.getFormat());
+            preparedStatement.setLong(4, file.getSize());
+            int res = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Something went wrong");
+            e.printStackTrace();
+        }
     }
 
     public void delete() {
